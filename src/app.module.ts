@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { VideosController } from './videos/videosController';
+import { VideosController } from './videos/videos.controller';
 
 @Module({
   imports: [],
