@@ -34,10 +34,7 @@ export class VideosController {
 
   @Patch(":id")
   patch(@Param("id") videoId: string, @Body() updateData) {
-    return {
-      updatedVideo: videoId,
-      ...updateData,
-    };
+    return this.videosService.update(videoId, updateData);
   }
 
 }

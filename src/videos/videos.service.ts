@@ -18,13 +18,22 @@ export class VideosService {
 
   deleteOne(id: string) {
     this.getOne(id);
-    this.videos.filter(video => video.id !== +id);
+    this.videos = this.videos.filter(video => video.id !== +id);
   }
 
   create(videoData) {
     this.videos.push({
       id: this.videos.length + 1,
       ...videoData,
+    })
+  }
+
+  update(id: string, updateData) {
+    const video = this.getOne(id);
+    this.deleteOne(id);
+    this.videos.push({
+      ...video,
+      ...updateData,
     })
   }
 }
