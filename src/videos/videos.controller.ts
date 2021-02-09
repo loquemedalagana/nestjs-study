@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Param, Patch, Post} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Patch, Post, Query} from '@nestjs/common';
 
 @Controller('videos')
 export class VideosController {
@@ -9,8 +9,8 @@ export class VideosController {
 
   // search를 id로 인식한다. (express랑 같은 문제)
   @Get("search")
-  search(){
-    return `we are searching... with a title`;
+  search(@Query('year') searchingYear: string){
+    return `we are searching... with a video made after ${searchingYear}`;
   }
   @Get('/:id')
   getOne(@Param("id") videoId: string) {
