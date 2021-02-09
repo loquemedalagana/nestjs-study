@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable, NotFoundException} from '@nestjs/common';
 import { Video } from "./entities/video.entity";
 
 @Injectable()
@@ -9,12 +9,16 @@ export class VideosService {
   }
 
   getOne(id: string): Video {
-    return this.videos.find(video => video.id === parseInt(id)); // +id도 가능
+    const video = this.videos.find(video => video.id === parseInt(id)); // +id도 가능
+    if(!video) {
+      throw new NotFoundException(`video id ${id} not found`);
+    }
+    return video;
   }
 
-  deleteOne(id: string): boolean {
+  deleteOne(id: string) {
+    this.getOne(id);
     this.videos.filter(video => video.id !== +id);
-    return true;
   }
 
   create(videoData) {
