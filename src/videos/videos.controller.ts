@@ -1,6 +1,8 @@
 import {Body, Controller, Delete, Get, Param, Patch, Post, Query} from '@nestjs/common';
 import {VideosService} from "./videos.service";
 import {Video} from "./entities/video.entity";
+import {CreateVideoDto} from "./dto/create-video.dto";
+import {UpdateVideoDto} from "./dto/update-movie.dto";
 
 @Controller('videos')
 export class VideosController {
@@ -17,23 +19,23 @@ export class VideosController {
     return `we are searching... with a video made after ${searchingYear}`;
   }
   @Get(':id')
-  getOne(@Param("id") videoId: string): Video {
+  getOne(@Param("id") videoId: number): Video {
     return this.videosService.getOne(videoId);
   }
 
   // 새 영상은 get요청을 먼저 보내고 response를 받았을 때 여기로 요청 보낸다.
   @Post()
-  create(@Body() videoData) {
+  create(@Body() videoData: CreateVideoDto) {
     return this.videosService.create(videoData);
   }
 
   @Delete(":id")
-  remove(@Param("id") videoId: string) {
+  remove(@Param("id") videoId: number) {
     return this.videosService.deleteOne(videoId);
   }
 
   @Patch(":id")
-  patch(@Param("id") videoId: string, @Body() updateData) {
+  patch(@Param("id") videoId: number, @Body() updateData: UpdateVideoDto) {
     return this.videosService.update(videoId, updateData);
   }
 
