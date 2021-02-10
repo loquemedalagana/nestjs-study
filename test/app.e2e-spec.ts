@@ -64,7 +64,22 @@ describe('AppController (e2e)', () => {
         .get("/videos/999")
         .expect(404);
     });
-    it.todo("DELETE");
-    it.todo("PATCH");
+
+    // todo 메소드는 테스트 함수 세부기능 만들기 전에 세팅
+    it("PATCH", () => {
+      return request(app.getHttpServer())
+        .patch('/videos/1')
+        .send({
+          title: "Test Video modified",
+          tags: ["test", "added"],
+        })
+        .expect(200);
+    });
+    // 데이터가 비어 있을 때는 delete 테스트가 어렵다.
+    it("DELETE", () => {
+      return request(app.getHttpServer())
+        .delete("/videos/1")
+        .expect(200);
+    });
   })
 });
