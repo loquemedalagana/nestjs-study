@@ -1,17 +1,24 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import {INestApplication, ValidationPipe} from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
+import { AppModule } from '../src/app.module';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
 
-  beforeEach(async () => {
+  // beforeAll vs beforeEach
+  beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    app.useGlobalPipes(new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true, // 실제 타입으로 변환해준다.
+    }))
+
     await app.init();
   });
 
@@ -46,5 +53,18 @@ describe('AppController (e2e)', () => {
     })
   })
 
-
+  describe("/videos/:id", () => {
+    it("GET 200", () => {
+      return request(app.getHttpServer())
+        .get("/videos/1")
+        .expect(200);
+    });
+    it("GET 404", () => {
+      return request(app.getHttpServer())
+        .get("/videos/999")
+        .expect(404);
+    });
+    it.todo("DELETE");
+    it.todo("PATCH");
+  })
 });
