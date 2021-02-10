@@ -17,8 +17,25 @@ describe('VideosService', () => {
     expect(service).toBeDefined();
   });
 
-  // first test
-  it("should be 4", () => {
-    expect(2+3).toEqual(5);
+  // 테스트 메소드들
+  describe("getAll", () => {
+    it("should return an array", () => {
+      const result = service.getAll();
+      expect(result).toBeInstanceOf(Array);
+    })
+  })
+
+  describe("getOne", () => {
+    it("should return a video", () => {
+      service.create({ // dummy data
+        title: "Test Video",
+        tags: ["test"],
+        year: 1999,
+      });
+
+      const video = service.getOne(1);
+      expect(video).toBeDefined();
+    })
+
   })
 });
