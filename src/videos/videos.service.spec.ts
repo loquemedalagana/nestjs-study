@@ -49,4 +49,42 @@ describe('VideosService', () => {
       }
     })
   })
+
+  // delete
+  describe("deleteOne", () => {
+    it("deletes a video", () => {
+      service.create({ // dummy data
+        title: "Test Video",
+        tags: ["test"],
+        year: 1999,
+      });
+      const allVideos = service.getAll().length;
+      service.deleteOne(1);
+      const afterDelete = service.getAll().length;
+      expect(afterDelete).toEqual(allVideos - 1);
+    })
+
+    it("should throw 404 error", () => {
+      try {
+        service.deleteOne(999);
+      } catch (error) {
+        expect(error).toBeInstanceOf(NotFoundException);
+        expect(error.message).toEqual("video id 999 not found"); // service메시지랑 같아야함
+      }
+    })
+  })
+
+  // create
+  describe("create", () => {
+    it("should create a video", () => {
+      const beforeCreate = service.getAll().length;
+      service.create({
+        title: "Test Video",
+        tags: ["test"],
+        year: 1999,
+      })
+      const afterCreate = service.getAll().length;
+      expect(afterCreate).toBeGreaterThan(beforeCreate);
+    })
+  })
 });
