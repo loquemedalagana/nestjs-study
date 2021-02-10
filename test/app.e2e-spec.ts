@@ -46,6 +46,20 @@ describe('AppController (e2e)', () => {
         })
         .expect(201);
     })
+
+    // wrong data test
+    it("POST 400", () => {
+      return request(app.getHttpServer())
+        .post('/videos')
+        .send({
+          title: "Test Video",
+          tags: ["test"],
+          year: 1999,
+          other: "hello world",
+        })
+        .expect(400);
+    })
+
     it("DELETE", () => {
       return request(app.getHttpServer())
         .delete('/videos')
@@ -75,11 +89,25 @@ describe('AppController (e2e)', () => {
         })
         .expect(200);
     });
+    it("PATCH 404", () => {
+      return request(app.getHttpServer())
+        .patch('/videos/999')
+        .send({
+          title: "Test Video modified bla bla",
+        })
+        .expect(404);
+    });
+
     // 데이터가 비어 있을 때는 delete 테스트가 어렵다.
     it("DELETE", () => {
       return request(app.getHttpServer())
         .delete("/videos/1")
         .expect(200);
+    });
+    it("DELETE", () => {
+      return request(app.getHttpServer())
+        .delete("/videos/999")
+        .expect(404);
     });
   })
 });
