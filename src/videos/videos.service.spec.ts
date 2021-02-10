@@ -87,4 +87,28 @@ describe('VideosService', () => {
       expect(afterCreate).toBeGreaterThan(beforeCreate);
     })
   })
+
+  describe("update", () => {
+    it("should update a movie", () => {
+      service.create({
+        title: "Test Video",
+        tags: ["test"],
+        year: 1999,
+      })
+      service.update(1, {
+        title: "updated test", // updated data
+      })
+      const video = service.getOne(1);
+      expect(video.title === "updated test"); // updated data
+    })
+  })
+
+  it("should throw 404 NotFoundException", () => {
+    try {
+      service.deleteOne(999);
+    } catch (error) {
+      expect(error).toBeInstanceOf(NotFoundException);
+      expect(error.message).toEqual("video id 999 not found"); // service메시지랑 같아야함
+    }
+  })
 });
