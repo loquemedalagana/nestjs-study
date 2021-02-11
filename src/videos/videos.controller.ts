@@ -4,7 +4,7 @@ import {Video} from "./entities/video.entity";
 import {CreateVideoDto} from "./dto/create-video.dto";
 import {UpdateVideoDto} from "./dto/update-movie.dto";
 
-@Controller('videos')
+@Controller('videos') // 앞의 url 설정(내가 하고싶은대로!)
 export class VideosController {
   constructor(private readonly videosService: VideosService) {}
 
